@@ -12,7 +12,6 @@ protocol ImageLoaderProtocol {
 }
 
 let imagesURLSTUB = [
-    
     "https://images.unsplash.com/photo-1692455151728-85b49a956d45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0OTA3NjF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTQwMTgyNTB8&ixlib=rb-4.0.3&w=400",
     "https://images.unsplash.com/photo-1691651642631-5ae894859b06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0OTA3NjF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTQwMTgyNDl8&ixlib=rb-4.0.3&w=500",
     "https://images.unsplash.com/photo-1691580438246-a6e5cb35ca05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0OTA3NjF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTQwMTgyNDd8&ixlib=rb-4.0.3&w=600",
@@ -25,81 +24,34 @@ let imagesURLSTUB = [
     "https://images.unsplash.com/photo-1692909026913-a5b0b0b1b5fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0OTA3NjF8MHwxfHJhbmRvbXx8fHx8fHx8fDE2OTQwMTgyMDN8&ixlib=rb-4.0.3&w=900"
 ]
 
-class ViewController: UIViewController {
-    
+final class ViewController: UIViewController {
     let dataSource = DataSource()
-    
-    
+
     @IBOutlet var tableView: UITableView! {
         didSet {
             tableView.register(ImageTableViewCell.nib, forCellReuseIdentifier: ImageTableViewCell.CELL_ID)
             tableView.dataSource = dataSource
             tableView.delegate = dataSource
-            tableView.rowHeight = 300
             tableView.allowsSelection = false
         }
     }
 }
 
-class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
+final class DataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
     let imageLoader: ImageLoaderProtocol = ImageLoader()
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         imagesURLSTUB.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.CELL_ID) as! ImageTableViewCell
         let urlString = imagesURLSTUB[indexPath.row]
-        
+
         imageLoader.loadImage(urlString: urlString) { image in
             cell.updateState(image: image)
         }
-        
+
         return cell
     }
 }
-
-
-class ImageLoader: ImageLoaderProtocol {
-    private var path: String?
-    private static var runningTasks = [String: URLSessionDataTask]() {
-        didSet {
-            print("runningtasks \(runningTasks.count)")
-        }
-    }
-
-    func loadImage(urlString: String, completion: @escaping (UIImage) -> Void) {
-        if ImageLoader.runningTasks[urlString] != nil {
-            return
-        }
-        
-        path = urlString
-        guard let url = URL(string: urlString) else {
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, _, _ in
-            ImageLoader.runningTasks.removeValue(forKey: urlString)
-            
-            guard let data = data, let image = UIImage(data: data) else {
-                return
-            }
-            
-            if urlString != self.path {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                completion(image)
-            }
-        }
-        
-        ImageLoader.runningTasks[urlString] = task
-        task.resume()
-    }
-    
-    
-}
-
-

@@ -12,40 +12,34 @@ protocol MyTableViewCellDelegate: AnyObject {
 }
 
 final class MyTableViewCell: UITableViewCell {
-    
     weak var delegate: MyTableViewCellDelegate! = nil
-    
+
     @IBOutlet var myImageView: UIImageView! {
         didSet {
             myImageView.contentMode = .scaleAspectFit
         }
     }
-    
+
     @IBOutlet var activityIndicator: UIActivityIndicatorView! {
         didSet {
             activityIndicator.startAnimating()
             activityIndicator.hidesWhenStopped = true
         }
     }
-    
-    
+
     static let CELL_ID = String(describing: MyTableViewCell.self)
     static func nib() -> UINib {
-        return UINib(nibName: MyTableViewCell.CELL_ID, bundle: nil)
+        UINib(nibName: Self.CELL_ID, bundle: nil)
     }
-    
+
     func loadImage(_ urlString: String) {
         let url = URL(string: urlString)!
-        let task = URLSession.shared.dataTask(with: url) {d,r,e in
-            
+        let task = URLSession.shared.dataTask(with: url) {_, _, _ in
         }
         task.resume()
-        
     }
-    
+
     func configure(_ image: UIImage? = nil) {
-        
-        
         if myImageView.image == nil {
             activityIndicator.startAnimating()
         } else {
@@ -54,5 +48,4 @@ final class MyTableViewCell: UITableViewCell {
             activityIndicator.stopAnimating()
         }
     }
-    
 }

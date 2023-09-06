@@ -15,6 +15,7 @@
 		6EC1C0462AA7D1F60031434E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1C0442AA7D1F60031434E /* LaunchScreen.storyboard */; };
 		6EC1C0532AA8DB300031434E /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1C0512AA8DB300031434E /* ImageTableViewCell.swift */; };
 		6EC1C0542AA8DB300031434E /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1C0522AA8DB300031434E /* ImageTableViewCell.xib */; };
+		6EC1C0562AA91D5C0031434E /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1C0552AA91D5C0031434E /* ImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		6EC1C0472AA7D1F60031434E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EC1C0512AA8DB300031434E /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		6EC1C0522AA8DB300031434E /* ImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
+		6EC1C0552AA91D5C0031434E /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				6EC1C0422AA7D1F60031434E /* Assets.xcassets */,
 				6EC1C0442AA7D1F60031434E /* LaunchScreen.storyboard */,
 				6EC1C0472AA7D1F60031434E /* Info.plist */,
+				6EC1C0552AA91D5C0031434E /* ImageLoader.swift */,
 			);
 			path = tableviewimage;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			files = (
 				6EC1C03E2AA7D1F60031434E /* ViewController.swift in Sources */,
 				6EC1C0532AA8DB300031434E /* ImageTableViewCell.swift in Sources */,
+				6EC1C0562AA91D5C0031434E /* ImageLoader.swift in Sources */,
 				6EC1C03A2AA7D1F60031434E /* AppDelegate.swift in Sources */,
 				6EC1C03C2AA7D1F60031434E /* SceneDelegate.swift in Sources */,
 			);
