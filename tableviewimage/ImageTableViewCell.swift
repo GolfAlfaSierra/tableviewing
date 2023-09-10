@@ -7,10 +7,17 @@
 
 import UIKit
 
-class ImageTableViewCell: UITableViewCell {
+final class ImageTableViewCell: UITableViewCell {
     @IBOutlet var mImageView: UIImageView! {
         didSet {
             mImageView.contentMode = .scaleAspectFit
+        }
+    }
+
+    @IBOutlet var activityIndicator: UIActivityIndicatorView! {
+        didSet {
+            activityIndicator.hidesWhenStopped = true
+            activityIndicator.startAnimating()
         }
     }
 
@@ -22,15 +29,13 @@ class ImageTableViewCell: UITableViewCell {
 
     func updateState(image: UIImage?) {
         mImageView.image = image
-    }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        contentView.backgroundColor = .red
+        activityIndicator.stopAnimating()
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         mImageView.image = nil
+        activityIndicator.startAnimating()
     }
 }
