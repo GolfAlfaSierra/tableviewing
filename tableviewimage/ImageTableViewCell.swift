@@ -8,6 +8,8 @@
 import UIKit
 
 final class ImageTableViewCell: UITableViewCell {
+    let imageLoader: ImageLoaderProtocol = ImageLoader()
+
     @IBOutlet var mImageView: UIImageView! {
         didSet {
             mImageView.contentMode = .scaleAspectFit
@@ -32,7 +34,7 @@ final class ImageTableViewCell: UITableViewCell {
 
         activityIndicator.stopAnimating()
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         mImageView.image = nil

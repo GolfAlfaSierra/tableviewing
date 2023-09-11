@@ -38,7 +38,7 @@ final class ViewController: UIViewController {
             tableView.dataSource = dataSource
             tableView.prefetchDataSource = dataSourcePrefetching
             tableView.allowsSelection = false
-            tableView.rowHeight = 300
+            tableView.rowHeight = UIScreen.main.bounds.height
         }
     }
 
@@ -48,8 +48,6 @@ final class ViewController: UIViewController {
 }
 
 final class DataSource: NSObject, UITableViewDataSource {
-    let imageLoader: ImageLoaderProtocol = ImageLoader()
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         imagesURLSTUB.count
     }
@@ -58,7 +56,7 @@ final class DataSource: NSObject, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.CELL_ID) as! ImageTableViewCell
         let urlString = imagesURLSTUB[indexPath.row]
 
-        imageLoader.loadImage(urlString: urlString) { image in
+        cell.imageLoader.loadImage(urlString: urlString) { image in
             cell.updateState(image: image)
         }
 
@@ -71,7 +69,8 @@ final class DataSourcePrefetching: NSObject, UITableViewDataSourcePrefetching {
 
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            imageLoader.loadImage(urlString: imagesURLSTUB[indexPath.row], completion: { _ in })
+            let urlString = imagesURLSTUB[indexPath.row]
+            imageLoader.loadImage(urlString: urlString, completion: { _ in })
         }
     }
 }

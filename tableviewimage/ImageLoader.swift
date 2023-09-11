@@ -10,8 +10,10 @@ import UIKit.UIImage
 final class ImageLoader: ImageLoaderProtocol {
     private static let imageCache = NSCache<NSString, UIImage>()
     private static var runningRequests = Set<String>()
+    private var imagePath = ""
 
     func loadImage(urlString: String, completion: @escaping (UIImage) -> Void) {
+        imagePath = urlString
         guard let url = URL(string: urlString) else {
             print("cannot convert \(urlString) to URL")
             return
@@ -19,6 +21,7 @@ final class ImageLoader: ImageLoaderProtocol {
 
         if let cachedImage = Self.imageCache.object(forKey: urlString as NSString) {
             DispatchQueue.main.async {
+                if self.imagePath != urlString {return}
                 completion(cachedImage)
             }
         }
@@ -37,6 +40,7 @@ final class ImageLoader: ImageLoaderProtocol {
             Self.imageCache.setObject(image, forKey: urlString as NSString)
 
             DispatchQueue.main.async {
+                if self.imagePath != urlString {return}
                 completion(image)
             }
         }
@@ -45,38 +49,3 @@ final class ImageLoader: ImageLoaderProtocol {
         task.resume()
     }
 }
-//
-//let imageCache = NSCache<NSString, UIImage>()
-//extension UIImageView {
-//    func loadImageUsingCache(withUrl urlString: String) {
-//        let url = URL(string: urlString)
-//        if url == nil {return}
-//
-//        // check cached image
-//        if let cachedImage = imageCache.object(forKey: urlString as NSString) {
-//            self.image = cachedImage
-//            return
-//        }
-//
-//        let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
-//        addSubview(activityIndicator)
-//        activityIndicator.startAnimating()
-//        activityIndicator.center = self.center
-//
-//        // if not, download image from url
-//        URLSession.shared.dataTask(with: url!, completionHandler: { data, _, error in
-//            if error != nil {
-//                print(error!)
-//                return
-//            }
-//
-//            DispatchQueue.main.async {
-//                if let image = UIImage(data: data!) {
-//                    imageCache.setObject(image, forKey: urlString as NSString)
-//                    self.image = image
-//                    activityIndicator.removeFromSuperview()
-//                }
-//            }
-//        }).resume()
-//    }
-//}
